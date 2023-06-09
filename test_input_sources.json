@@ -1,0 +1,5 @@
+{
+    "test 1" : ["HDMI","HDMI2","TYPE1","ViewBoard"],
+    "test 2" : ["HDMI1","HDMI2","TYPE1","ViewBoard","TYPE"],
+    "test 3" : ["HDMI","HDMI1","TYPE1","ViewBoard"]
+}
