@@ -1,5 +1,10 @@
 {
-    "test 1" : ["HDMI","HDMI2","TYPE1","ViewBoard"],
-    "test 2" : ["HDMI1","HDMI2","TYPE1","ViewBoard","TYPE"],
-    "test 3" : ["HDMI","HDMI1","TYPE1","ViewBoard"]
+    "all_input_sources" : ["HDMI","HDMI1","HDMI2","HDMI3","HDMI4","HDMI5","VGA","AV","ViewBoard","DP","PC","TypeC","DVI","USB","HDBaseT"],
+    "individual_deivce" : [
+        {
+            "IFP52-1 (20230606)" : ["HDMI1","HDMI2","HDMI3","HDMI4","VGA","ViewBoard","TypeC"],
+            "IFP50-5 (2023509)" : ["HDMI1","HDMI2","HDMI3","ViewBoard","TypeC"],
+            "IFP70 (20221118)" : ["DP","HDMI1","TypeC","ViewBoard"]
+        }
+    ]
 }

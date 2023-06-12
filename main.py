@@ -1,11 +1,10 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk,Frame
 import json
 
 window = tk.Tk()
 window.title("Input Sources Filter")
-window.minsize(500, 500)
-window.maxsize(600, 600)
+window.geometry('700x650')
 
 def get_json(file_name):
     with open(file_name, encoding="utf-8") as f:
@@ -15,7 +14,8 @@ def get_json(file_name):
 errMessage = tk.StringVar()
 errMessage.set('')
 input_sources_data = get_json("test_input_sources.json")
-deviceList = list(input_sources_data.keys())
+deviceList = list(input_sources_data['individual_deivce'][0])
+all_input_sources = list(input_sources_data['all_input_sources'])
 
 selectTitle = tk.Label(window, font=30, text="【請選擇要比較的裝置 Please select the devices】").grid(row=0, columnspan=3)
 deviceMenu1 = ttk.Combobox(values=deviceList)
@@ -49,36 +49,32 @@ def button_event():
         err_Message(tk_check)
 
 def get_result(device1 ,device2):
-    device1_value = input_sources_data[device1]
-    device2_value = input_sources_data[device2]
-    print(f"{device1} => {device1_value}")
-    print(f"{device2} => {device2_value}")
+    device1_value = input_sources_data['individual_deivce'][0][device1]
+    device2_value = input_sources_data['individual_deivce'][0][device2]
     commen_values = set(device1_value) & set(device2_value)
-    print(commen_values)
-    tk.Label(window, font=30, text=device1).grid(row=5, column=0)
-    for value in device1_value:
-        if value not in commen_values:
-            tk.Label(window, font=20, text=value, fg='red').grid(column=0)
-            print(f"{device1}的{value}是獨特的")
-        else:
-            tk.Label(window, font=20, text=value).grid(column=0)
-            print(f"{device1}和其他機器都有{value}")
+    union_values = set(device1_value).union(set(device2_value))
 
-    tk.Label(window, font=40, text="------", fg="blue").grid(column=0)
-    tk.Label(window, font=30, text=device2).grid(column=0)
-    for value in device2_value:
-        if value not in commen_values:
-            tk.Label(window, font=20, text=value, fg='red').grid(column=0)
-            print(f"{device2}的{value}是獨特的")
+    create_frame('frame1', 5, 0, device1, commen_values, device1_value)
+    create_frame('frame2', 5, 1, device2, commen_values, device2_value)
+    create_frame('frame3', 5, 2, "所有訊號源\n(紅字為兩台裝置都沒有的)", union_values, all_input_sources)
+
+def create_frame(frame, ro, col, device_name, compare_arr, target_arr):
+    frame = tk.LabelFrame(window, padx=2, pady=2)
+    tk.Label(frame, font=40, text=device_name, fg='blue').grid()
+    for value in target_arr:
+        if value not in compare_arr:
+            tk.Label(frame, font=20, text=value, fg='red').grid()
         else:
-            tk.Label(window, font=20, text=value).grid(column=0)
-            print(f"{device2}和其他機器都有{value}")
-    
+            tk.Label(frame, font=20, text=value, fg='grey').grid()
+    frame.grid(row=ro, column=col)
 
 def err_Message(err):
     errMessage.set(err)
-
+def clear_event():
+    pass
 subBtn = tk.Button(window, text="submit", command=button_event)
 subBtn.grid(row=4, columnspan=4, pady=5)
+clearBtn = tk.Button(window, text="clear", command=clear_event)
+clearBtn.grid(row=4)
 
 window.mainloop()
