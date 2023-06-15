@@ -44,6 +44,7 @@ def button_event():
     device2 = deviceMenu2.get()
     tk_check = check_devices(device1, device2)
     if tk_check == True:
+        clear_event()
         get_result(device1, device2)
     else:
         err_Message(tk_check)
@@ -70,11 +71,14 @@ def create_frame(frame, ro, col, device_name, compare_arr, target_arr):
 
 def err_Message(err):
     errMessage.set(err)
+
 def clear_event():
-    pass
+    frame1 = tk.LabelFrame(window, padx=2, pady=2)
+    tk.Label(frame1).grid()
+    frame1.grid(row=5,sticky=tk.N+tk.S+tk.W+tk.E,columnspan=3)
+
+
 subBtn = tk.Button(window, text="submit", command=button_event)
 subBtn.grid(row=4, columnspan=4, pady=5)
-clearBtn = tk.Button(window, text="clear", command=clear_event)
-clearBtn.grid(row=4)
 
 window.mainloop()
